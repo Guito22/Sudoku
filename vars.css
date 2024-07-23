@@ -1,7 +1,14 @@
 :root{
     --body-bg:whitesmoke;
+    --body-color:black;
+    --theme-btn-bg:orange;
+    --border-color:orange;
 }
 
 [data-theme="dark"]{
     --body-bg:#101030;
+    --body-color:whitesmoke;
+    --theme-btn-bg:navy;
+    --border-color:purple;
+
 }
