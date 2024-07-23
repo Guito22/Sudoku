@@ -1,0 +1,7 @@
+:root{
+    --body-bg:whitesmoke;
+}
+
+[data-theme="dark"]{
+    --body-bg:#101030;
+}
