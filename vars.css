@@ -3,12 +3,14 @@
     --body-color:black;
     --theme-btn-bg:orange;
     --border-color:orange;
+    --selected-bg:sandybrown;
 }
 
 [data-theme="dark"]{
     --body-bg:#101030;
     --body-color:whitesmoke;
     --theme-btn-bg:navy;
-    --border-color:purple;
+    --border-color:rebeccapurple;
+    --selected-bg:mediumpurple;
 
 }

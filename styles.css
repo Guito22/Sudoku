@@ -13,16 +13,21 @@ body{
     flex-direction: column;
     align-items: center;
     min-height: 100vh;
+    z-index: -1;
+}
+
+#upperDiv{
+    margin: 1rem;
 }
 
 select{
-    margin-right: 1rem;
-    margin-top: 1rem;
     border-radius: 10px;
     padding: 10px;
 
 }
-
+#newGameBtn{
+    margin: 1rem;
+}
 
 #themeBtn{
     border-radius: 100%;
@@ -34,21 +39,60 @@ select{
 
 table{
     margin: 1rem;
+
 }
 
 td{
     width: calc(100px + 2vw);
     height: calc(100px + 2vw);
-    border: 1px solid var(--border-color);
+    & div{
+        display: flex;
+        flex-wrap: wrap;
+    }
+    & button{
+        width: calc(100%/3);
+        height: calc((100px/3) + (2vw/3));
+        border: 1px solid rgba(120, 120, 120, 0.1);
+        transition: 0.2s all ease-in-out;
+    }
 }
 
+#up,#down{
+    border-left: 5px solid var(--border-color);
+    border-right: 5px solid var(--border-color);
+    border-radius: 5px;
 
+}
+#left,#right{
+    border-top: 5px solid var(--border-color);
+    border-bottom: 5px solid var(--border-color);
+    border-radius: 5px;
+
+}
+#center{
+    border:5px solid var(--border-color);
+    border-radius: 5px;
+}
+
+#numbersDiv{
+    display: flex;
+    flex-wrap: wrap;
+    width: 350px;
+    justify-content: center;
+}
 
 #numbersDiv button{
     border-radius: 10px;
     border: 1px solid var(--border-color);
-    padding: 10px;
     margin: 0.5rem;
     cursor: pointer;
     font-size: large;
+    width: 50px;
+    height: 50px;
+
+}
+
+.highlight{
+    background-color: var(--selected-bg);
+    border-radius: 100%;
 }
