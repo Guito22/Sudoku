@@ -26,15 +26,23 @@ select{
 
 }
 #newGameBtn{
-    margin: 1rem;
+    margin: 0.5rem 1rem;
 }
 
 #themeBtn{
     border-radius: 100%;
     padding: 10px;
     font-size: large;
+    background-color: var(--body-bg);
+    border: 1px solid transparent;
+    transition: 0.3s all ease-in;
+
+}
+
+#themeBtn:hover{
     background-color: var(--theme-btn-bg);
     border: 1px solid;
+    transition: 0.3s all ease-in;
 }
 
 table{
@@ -54,6 +62,18 @@ td{
         height: calc((100px/3) + (2vw/3));
         border: 1px solid rgba(120, 120, 120, 0.1);
         transition: 0.2s all ease-in-out;
+    }
+}
+
+@media screen and (max-width:500px){
+    td{
+        width: 33vw;
+        height: 33vw;
+
+        & button{
+            width: calc(100%/3);
+            height: 11vw;            
+        }
     }
 }
 
@@ -77,22 +97,48 @@ td{
 #numbersDiv{
     display: flex;
     flex-wrap: wrap;
-    width: 350px;
     justify-content: center;
 }
 
+#numbersDiv div{
+    position: relative;
+    display: flex;
+    justify-content: center ;
+}
+#numbersDiv h5{
+    position: absolute;
+    bottom: 0.7rem;
+    background-color: initial;
+    
+}
+
 #numbersDiv button{
-    border-radius: 10px;
+    border-radius: 100%;
     border: 1px solid var(--border-color);
     margin: 0.5rem;
     cursor: pointer;
-    font-size: large;
-    width: 50px;
-    height: 50px;
-
+    font-size: larger;
+    width: 60px;
+    height: 60px;
 }
 
 .highlight{
     background-color: var(--selected-bg);
+    color: var(--body-bg);
+    font-weight: bold;
     border-radius: 100%;
 }
+
+#time{
+    height: 1rem;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+dialog{
+    margin: 0 auto;
+    border-radius: 10px;
+
+}
+dialog::backdrop {
+    background-color: black;
+    opacity: 0.4;
+  }

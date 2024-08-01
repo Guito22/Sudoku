@@ -4,6 +4,8 @@
     --theme-btn-bg:orange;
     --border-color:orange;
     --selected-bg:sandybrown;
+    --input-color:blue;
+
 }
 
 [data-theme="dark"]{
@@ -12,5 +14,10 @@
     --theme-btn-bg:navy;
     --border-color:rebeccapurple;
     --selected-bg:mediumpurple;
+    --input-color:yellow;
 
+
+}
+[available="yes"]{
+    color: var(--input-color);
 }

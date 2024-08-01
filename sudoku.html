@@ -9,14 +9,15 @@
 <body data-theme="light">
     <div id="upperDiv">
         <select name="" id="">
-            <option value="">Beginner</option>
-            <option value="">Medium</option>
-            <option value="">Hard</option>
-            <option value="">Extreme</option>
+            <option value="0">Beginner</option>
+            <option value="1">Medium</option>
+            <option value="2">Hard</option>
+            <option value="3">Extreme</option>
         </select>
         <button id="newGameBtn">New Game</button>
         <button id="themeBtn"></button>
     </div>
+    <h3 id="time"></h3>
     <table>
         <tr>
             <td>
@@ -53,19 +54,21 @@
         </tr>
     </table>
     <div id="numbersDiv">
-        <button>1</button>
-        <button>2</button>
-        <button>3</button>
-        <button>4</button>
-        <button>5</button>
-        <button>6</button>
-        <button>7</button>
-        <button>8</button>
-        <button>9</button>
-        <button>X</button>
-        <button>💡</button>
-        <button>✏</button>
     </div>
+    <dialog>
+        <h1>You won!</h1>
+        <h2>Scores</h2>
+        <h3></h3>
+        <h3></h3>
+        <h3></h3>
+        <h3></h3>
+        <h3></h3>
+        <button id="closeModal">Close</button>
+    </dialog>
+
+    <script src="timer.js"></script>
+    <script src="utils.js"></script>
+    <script src="sudokuValidations.js"></script>
     <script src="main.js"></script>
 </body>
 </html>

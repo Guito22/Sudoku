@@ -1,69 +1,82 @@
 const body = document.body
-const localTheme = localStorage.getItem("data-theme")
-const themeBtn = document.querySelector("#themeBtn")
-const square = document.querySelectorAll("td div")
-
 let tileSelected = undefined;
 let btnSelected = undefined;
 
-for (const i of square) {
-    for (let j = 0; j < 9; j++) {
-        
-        const button = document.createElement("button")
-        button.textContent = `${j}`
-        button.style.fontSize="large"
-        i.appendChild(button)
-    }
-}
+createBoardBtns()
+createActionBtns()
+generateBoard()
+fillBoardDisplay()
+getDigitSituation()
+setTheme()
 
-if(localTheme){
-    body.setAttribute("data-theme",localTheme)
-    themeBtn.textContent = localTheme==="light" ? "🔆" : "🌙"
-}
-else{
-    localStorage.setItem("data-theme","light")
-    themeBtn.textContent ="🔆"
-}
+const newGameBtn = document.querySelector("#newGameBtn")
+const selectDifficulty = document.querySelector("select")
+const dialog = document.querySelector("dialog")
+const closeModal = document.querySelector("#closeModal")
+
+newGameBtn.addEventListener("click",(e)=>{
+    e.stopPropagation()
+    seconds=minutes=hours=0
+    generateBoard()
+    fillBoardDisplay()
+    getDigitSituation()
+    removeHighLight()
+})
+
+selectDifficulty.addEventListener("click",(e)=>{
+    e.stopPropagation()
+})
+
+closeModal.addEventListener("click",(e)=>{
+    e.stopPropagation()
+    dialog.close()
+})
+
 body.addEventListener("click",(e)=>{
+    removeHighLight()
     const selected = document.querySelector("#selected")
-    if(selected){
+    tileSelected = undefined
+    btnSelected = undefined
 
-        selected.classList.toggle("highlight")
+    if(selected){
+        selected.classList.remove("highlight")
+
         selected.id=""
-        tileSelected = undefined
     }
     const btnhightLighted = document.querySelector("#btnSelected")
     if(btnhightLighted){
 
-        btnhightLighted.classList.toggle("highlight")
         btnhightLighted.id=""
-        btnSelected = undefined
     }
+    
 
 })
 body.addEventListener("keydown",(e)=>{
     if(e.key>="1" && e.key<="9"){
         e.preventDefault()
         if(tileSelected){
-            tileSelected.textContent = e.key
+
+            if(!tileSelected.hasAttribute("available")){
+                return
+            }
+            if(tileSelected.textContent!=e.key){
+                tileSelected.textContent = e.key
+                highlightSameDigit(e.key)
+                updateBoardArray()
+                if(isSolved(board)){
+                    dialog.showModal()
+                }
+            }
+            else{
+                tileSelected.textContent = " "
+                if(btnSelected){
+                    btnSelected.classList.add("highlight")
+                }
+                removeHighLight()
+                
+            }
         }
-    }
-})
-
-themeBtn.addEventListener("click",(e)=>{
-    e.stopPropagation()
-
-    if(body.getAttribute("data-theme")==="light"){
-        body.setAttribute("data-theme","dark")
-        localStorage.setItem("data-theme","dark")
-        themeBtn.textContent ="🌙"
-
-    }
-    else{
-        body.setAttribute("data-theme","light")
-        localStorage.setItem("data-theme","light")
-        themeBtn.textContent ="🔆"
-
+        updateBoardArray()
     }
 })
 
@@ -72,37 +85,65 @@ const boardNumbers = document.querySelectorAll("td button")
 for (const i of boardNumbers) {
     i.addEventListener("click",(e)=>{
         e.stopPropagation()
+        
         if(btnSelected){
             const btnhightLighted = document.querySelector("#btnSelected")
             if(btnhightLighted.textContent>="1" && btnhightLighted.textContent<="9"){
                 if(i.textContent===btnhightLighted.textContent){
                     i.textContent=" "
+                    removeHighLight()
+                    btnSelected.classList.add("highlight")
+
                 }
                 else{
-                    i.textContent = btnhightLighted.textContent
+                    btnSelected.classList.add("highlight")
+                    tileSelected = i
+                    if(tileSelected.hasAttribute("available")){
+                        
+                        i.textContent = btnhightLighted.textContent
+
+                        highlightSameDigit(btnSelected.textContent)
+                        btnSelected.classList.add("highlight")
+                        updateBoardArray()
+                        
+                        if(isSolved(board)){
+                            dialog.showModal()
+                        }
+                    }
+
+                    
                 }
             }
             if(btnhightLighted.textContent==="X"){
-                i.textContent = " "
+                if(i.hasAttribute("available")){
+
+                    i.textContent = " "
+                }
+                removeHighLight()
+                btnSelected = undefined
             }
+            updateBoardArray()
             return
         }
         if(tileSelected!==i){
 
             if(tileSelected!==undefined){
-                const selected = document.querySelector(".highlight")
-                selected.classList.toggle("highlight")
+                tileSelected.classList.remove("highlight")
                 selected.id = ""
             }
             tileSelected = i
             i.id = "selected"
+            highlightSameDigit(i.textContent)
         }
         else{
             tileSelected = undefined
+            removeHighLight()
+            i.classList.remove("highlight")
             i.id = ""
 
         }
-        i.classList.toggle("highlight")
+        updateBoardArray()
+
     })
 }
 
@@ -113,16 +154,54 @@ for (const i of numbersBtns) {
         e.stopPropagation()
         if(btnSelected!==i){
             if(btnSelected!==undefined){
-                const selected = document.querySelector("#btnSelected")
-                selected.classList.toggle("highlight")
-                selected.id=""
+                btnSelected.classList.toggle("highlight")
+                btnSelected.id=""
+                if(tileSelected){
+
+                    tileSelected.id=""
+                    tileSelected = undefined
+                }
+            }
+            if(tileSelected && i.textContent>=1 && i.textContent<=9){
+                if(!tileSelected.hasAttribute("available")){
+                    return
+                }
+                if(tileSelected.textContent===i.textContent){
+                    tileSelected.textContent = " "
+                }
+                else{
+                    tileSelected.textContent = i.textContent
+                    updateBoardArray()
+                    
+                    if(isSolved(board)){
+                        dialog.showModal()
+                    }
+                }
+            }
+            if(tileSelected && i.textContent==="X"){
+                if(tileSelected.hasAttribute("available")){
+
+                    tileSelected.textContent = " "
+                    i.id = ""
+                    tileSelected.classList.remove("highlight")
+                    tileSelected.id=""
+                    tileSelected=undefined
+                    btnSelected=undefined
+                    removeHighLight()
+                }
+                
+                return
+
             }
             btnSelected = i
             i.id = "btnSelected"
+            highlightSameDigit(btnSelected.textContent)
         }
         else{
             btnSelected=undefined
             i.id=""
+            removeHighLight()
+            return
         }
         i.classList.toggle("highlight")
     })
