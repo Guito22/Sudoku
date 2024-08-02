@@ -1,6 +1,7 @@
 const timepassed = document.querySelector("#time")
 let seconds=0,minutes=0,hours=0
 const setTime = async ()=>{
+    seconds=minutes=hours=0
     return new Promise((resolve, reject) => {
         setInterval(()=>{
             if(isSolved(board)){

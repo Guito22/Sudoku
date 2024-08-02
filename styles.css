@@ -12,6 +12,7 @@ body{
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     min-height: 100vh;
     z-index: -1;
 }
@@ -23,10 +24,19 @@ body{
 select{
     border-radius: 10px;
     padding: 10px;
+    font-size: medium;
+    cursor: pointer;
 
 }
 #newGameBtn{
     margin: 0.5rem 1rem;
+    border-radius: 10px;
+    padding: 10px 15px;
+    font-size: medium;
+    font-weight: bold;
+    background-color: var(--theme-btn-bg);
+    border: 1px solid var(--body-color);
+    cursor: pointer;
 }
 
 #themeBtn{
@@ -36,7 +46,8 @@ select{
     background-color: var(--body-bg);
     border: 1px solid transparent;
     transition: 0.3s all ease-in;
-
+    cursor: pointer;
+    
 }
 
 #themeBtn:hover{
@@ -134,11 +145,34 @@ td{
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 dialog{
-    margin: 0 auto;
     border-radius: 10px;
-
+    border: none;
+    margin: 2rem auto;
+    position: absolute;
+    box-shadow: 2px 2px 2px black;
+    border: 1px solid;
+    padding: 1.5rem;
+    text-align: center;
+    font-family: 'Times New Roman', Times, serif
 }
 dialog::backdrop {
     background-color: black;
     opacity: 0.4;
-  }
+}
+
+dialog button{
+    background-color: var(--theme-btn-bg);
+    border-radius: 10px;
+    border: 1px solid var(--body-color);
+    margin-top: 1rem;
+    font-size: medium;
+    font-weight: bold;
+    padding: 5px 10px;
+}
+
+#modalContent div{
+    display: flex;
+}
+#modalContent h3{
+    margin: 5px;
+}

@@ -140,10 +140,13 @@ const generateDiagonalSquares = ()=>{
 
 const generateRemainingSquares = (squareIndex,spaceIndex)=>{
     const remainingSquares = [1,2,3,5,6,7]
-    for (let i = 1; i <=9; i++) {
+
+    for (let i = 1; i<=9; i++) {
+        
         if(isSolved(board)){
             break
         }
+        
         board[remainingSquares[squareIndex]][spaceIndex] = i
         if(isValid(board)){
             if(spaceIndex===8){
@@ -165,7 +168,7 @@ const generateRemainingSquares = (squareIndex,spaceIndex)=>{
 const removeNums = ()=>{
     const selectDifficulty = document.querySelector("select")
     editablePositions=[]
-    let numbersRemoved = [30,46,50,58],n1,n2
+    let numbersRemoved = [1,40,50,58],n1,n2
     for (let i = 0; i < numbersRemoved[selectDifficulty.value]; i++) {
         do{
 
@@ -210,4 +213,84 @@ const getDigitSituation = ()=>{
         }
         
     }
+}
+
+const resetBoard = e =>{
+    e.stopPropagation()
+    seconds=minutes=hours=0
+    if(tileSelected){
+        tileSelected.id=""
+    }
+    if(btnSelected){
+        btnSelected.id=""
+    }
+    tileSelected=btnSelected=undefined
+    generateBoard()
+    fillBoardDisplay()
+    getDigitSituation()
+    removeHighLight()
+}
+
+const startGame = ()=>{
+    createBoardBtns()
+    createActionBtns()
+    generateBoard()
+    fillBoardDisplay()
+    getDigitSituation()
+    setTheme()
+}
+
+const showModal = ()=>{
+    const dialog = document.querySelector("dialog")
+    if(isSolved(board)){
+        saveScores()
+        loadScores()
+        dialog.showModal()
+    }
+}
+
+const saveScores = ()=>{
+    const score={
+        date: new Date().toDateString(),
+        score:timepassed.textContent,
+        seconds:(hours*3600)+(minutes*60)+(seconds)
+    }
+    const scores = JSON.parse(localStorage.getItem(selectDifficulty.value))
+    
+    if(scores){
+        for (let i = 0; i < scores.length; i++) {
+            if(score.seconds<=scores[i].seconds){
+                scores.splice(i,0,score)
+                break
+            }
+        }
+        if(!scores.includes(score)){
+            scores.push(score)
+        }
+        if(scores.length>10){
+            scores.pop()
+        }
+        localStorage.setItem(selectDifficulty.value,JSON.stringify(scores))
+    }
+    else{
+        localStorage.setItem(selectDifficulty.value,JSON.stringify([score]))
+    
+    }
+
+}
+
+const loadScores = ()=>{
+    const modalContent = document.querySelector("#modalContent")
+    const scores = JSON.parse(localStorage.getItem(selectDifficulty.value))
+    let content = ""
+    for (let i = 0;i<scores.length;i++) {
+        const score = `
+            <div>
+                <h3>${i+1}. ${scores[i].date}</h3>
+                <h3>${scores[i].score}</h3>
+            </div>
+        `
+        content +=score
+    }
+    modalContent.innerHTML = content
 }

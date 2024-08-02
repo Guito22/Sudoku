@@ -2,12 +2,8 @@ const body = document.body
 let tileSelected = undefined;
 let btnSelected = undefined;
 
-createBoardBtns()
-createActionBtns()
-generateBoard()
-fillBoardDisplay()
-getDigitSituation()
-setTheme()
+startGame()
+
 
 const newGameBtn = document.querySelector("#newGameBtn")
 const selectDifficulty = document.querySelector("select")
@@ -15,16 +11,15 @@ const dialog = document.querySelector("dialog")
 const closeModal = document.querySelector("#closeModal")
 
 newGameBtn.addEventListener("click",(e)=>{
-    e.stopPropagation()
-    seconds=minutes=hours=0
-    generateBoard()
-    fillBoardDisplay()
-    getDigitSituation()
-    removeHighLight()
+   resetBoard(e)
 })
 
 selectDifficulty.addEventListener("click",(e)=>{
     e.stopPropagation()
+})
+selectDifficulty.addEventListener("change",(e)=>{
+    resetBoard(e)
+
 })
 
 closeModal.addEventListener("click",(e)=>{
@@ -35,25 +30,25 @@ closeModal.addEventListener("click",(e)=>{
 body.addEventListener("click",(e)=>{
     removeHighLight()
     const selected = document.querySelector("#selected")
+    const btnhightLighted = document.querySelector("#btnSelected")
     tileSelected = undefined
     btnSelected = undefined
 
     if(selected){
         selected.classList.remove("highlight")
-
         selected.id=""
     }
-    const btnhightLighted = document.querySelector("#btnSelected")
     if(btnhightLighted){
-
         btnhightLighted.id=""
     }
-    
 
 })
 body.addEventListener("keydown",(e)=>{
     if(e.key>="1" && e.key<="9"){
         e.preventDefault()
+        if(isSolved(board)){
+            return
+        }
         if(tileSelected){
 
             if(!tileSelected.hasAttribute("available")){
@@ -63,9 +58,7 @@ body.addEventListener("keydown",(e)=>{
                 tileSelected.textContent = e.key
                 highlightSameDigit(e.key)
                 updateBoardArray()
-                if(isSolved(board)){
-                    dialog.showModal()
-                }
+                showModal()
             }
             else{
                 tileSelected.textContent = " "
@@ -85,7 +78,9 @@ const boardNumbers = document.querySelectorAll("td button")
 for (const i of boardNumbers) {
     i.addEventListener("click",(e)=>{
         e.stopPropagation()
-        
+        if(isSolved(board)){
+            return
+        }
         if(btnSelected){
             const btnhightLighted = document.querySelector("#btnSelected")
             if(btnhightLighted.textContent>="1" && btnhightLighted.textContent<="9"){
@@ -106,9 +101,8 @@ for (const i of boardNumbers) {
                         btnSelected.classList.add("highlight")
                         updateBoardArray()
                         
-                        if(isSolved(board)){
-                            dialog.showModal()
-                        }
+                        showModal()
+
                     }
 
                     
@@ -173,9 +167,8 @@ for (const i of numbersBtns) {
                     tileSelected.textContent = i.textContent
                     updateBoardArray()
                     
-                    if(isSolved(board)){
-                        dialog.showModal()
-                    }
+                    showModal()
+
                 }
             }
             if(tileSelected && i.textContent==="X"){
