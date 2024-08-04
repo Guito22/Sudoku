@@ -141,12 +141,13 @@ for (const i of boardNumbers) {
     })
 }
 
-const numbersBtns = document.querySelectorAll("#numbersDiv button")
+const numbersBtns = document.querySelectorAll("#numbersDiv div")
 
 for (const i of numbersBtns) {
     i.addEventListener("click",(e)=>{
+        const button = i.children[0]
         e.stopPropagation()
-        if(btnSelected!==i){
+        if(btnSelected!==button){
             if(btnSelected!==undefined){
                 btnSelected.classList.toggle("highlight")
                 btnSelected.id=""
@@ -156,26 +157,26 @@ for (const i of numbersBtns) {
                     tileSelected = undefined
                 }
             }
-            if(tileSelected && i.textContent>=1 && i.textContent<=9){
+            if(tileSelected && button.textContent>=1 && button.textContent<=9){
                 if(!tileSelected.hasAttribute("available")){
                     return
                 }
-                if(tileSelected.textContent===i.textContent){
+                if(tileSelected.textContent===button.textContent){
                     tileSelected.textContent = " "
                 }
                 else{
-                    tileSelected.textContent = i.textContent
+                    tileSelected.textContent = button.textContent
                     updateBoardArray()
                     
                     showModal()
 
                 }
             }
-            if(tileSelected && i.textContent==="X"){
+            if(tileSelected && button.textContent==="X"){
                 if(tileSelected.hasAttribute("available")){
 
                     tileSelected.textContent = " "
-                    i.id = ""
+                    button.id = ""
                     tileSelected.classList.remove("highlight")
                     tileSelected.id=""
                     tileSelected=undefined
@@ -186,16 +187,16 @@ for (const i of numbersBtns) {
                 return
 
             }
-            btnSelected = i
-            i.id = "btnSelected"
+            btnSelected = button
+            button.id = "btnSelected"
             highlightSameDigit(btnSelected.textContent)
         }
         else{
             btnSelected=undefined
-            i.id=""
+            button.id=""
             removeHighLight()
             return
         }
-        i.classList.toggle("highlight")
+        button.classList.toggle("highlight")
     })
 }

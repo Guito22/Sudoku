@@ -168,7 +168,7 @@ const generateRemainingSquares = (squareIndex,spaceIndex)=>{
 const removeNums = ()=>{
     const selectDifficulty = document.querySelector("select")
     editablePositions=[]
-    let numbersRemoved = [1,40,50,58],n1,n2
+    let numbersRemoved = [20,30,45,50],n1,n2
     for (let i = 0; i < numbersRemoved[selectDifficulty.value]; i++) {
         do{
 

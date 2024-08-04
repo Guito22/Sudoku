@@ -18,7 +18,10 @@ body{
 }
 
 #upperDiv{
-    margin: 1rem;
+    margin: 0.5rem;
+}
+#time{
+    margin-bottom: 1rem;
 }
 
 select{
@@ -56,10 +59,7 @@ select{
     transition: 0.3s all ease-in;
 }
 
-table{
-    margin: 1rem;
 
-}
 
 td{
     width: calc(100px + 2vw);
@@ -78,12 +78,12 @@ td{
 
 @media screen and (max-width:500px){
     td{
-        width: 33vw;
-        height: 33vw;
+        width: 33.33vw;
+        height: 33.33vw;
 
         & button{
             width: calc(100%/3);
-            height: 11vw;            
+            height: 11.11vw;            
         }
     }
 }
@@ -120,24 +120,31 @@ td{
     position: absolute;
     bottom: 0.7rem;
     background-color: initial;
-    
+    cursor: default;
 }
 
 #numbersDiv button{
     border-radius: 100%;
     border: 1px solid var(--border-color);
     margin: 0.5rem;
-    cursor: pointer;
     font-size: larger;
     width: 60px;
     height: 60px;
+}
+
+
+@media screen and (max-width:500px){
+    #numbersDiv button{
+        width: 50px;
+        height: 50px;
+        font-size: medium;
+    }
 }
 
 .highlight{
     background-color: var(--selected-bg);
     color: var(--body-bg);
     font-weight: bold;
-    border-radius: 100%;
 }
 
 #time{
